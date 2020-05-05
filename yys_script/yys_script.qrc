@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="yys_script">
+    <qresource prefix="/yys_script">
+        <file>discovery.jpg</file>
     </qresource>
 </RCC>

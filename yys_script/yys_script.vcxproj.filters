@@ -31,6 +31,9 @@
     <ClCompile Include="yys_script.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PointFinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="yys_script.h">
@@ -46,5 +49,10 @@
     <QtRcc Include="yys_script.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PointFinder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

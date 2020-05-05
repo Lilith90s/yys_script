@@ -81,6 +81,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PointFinder.cpp" />
     <ClCompile Include="yys_script.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="yys_script.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PointFinder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
