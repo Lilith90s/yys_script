@@ -7,6 +7,7 @@
 #include "PointFinder.h"
 
 
+
 LRESULT mouseHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == WM_XBUTTONDOWN)
@@ -72,11 +73,16 @@ void yys_script::on_testButton_clicked()
 {																								
 	if (hd_)
 	{
-		auto pos = PointFinder::get_discovery_pos(hd_);
-		while (pos == QPoint(-1,-1))
+		auto pos = PointFinder::get_explore_pos(hd_);
+		//while (pos == QPoint(-1,-1))
+		//{
+		//	pos = PointFinder::get_explore_pos(hd_);
+		//	ui.logWidget->addItem(QString::fromLocal8Bit("查找失败,重新尝试"));
+		//}
+		qDebug() << pos;
+		if (pos.x() != -1)
 		{
-			pos = PointFinder::get_discovery_pos(hd_);
-			ui.logWidget->addItem(QString::fromLocal8Bit("查找失败,重新尝试"));
+			ui.logWidget->addItem(QStringLiteral("点击探索-第十七章！"));
 		}
 		send_click(pos);
 	}

@@ -1,4 +1,5 @@
 #pragma once
+#include <core.hpp>
 #include <QPoint>
 #include <Windows.h>
 class QImage;
@@ -20,8 +21,14 @@ public:
 	 */
 	static QPoint get_discovery_pos(HWND hd);
 
+	static QPoint get_explore_pos(HWND hd);
+
 	static bool check_color(QColor& color1,QColor& color2);
 
 	static bool check_image(QImage& src,QImage& dst,QPoint& pos);
+
+	static QPoint find_pos(HWND hd ,QString& dst_name);
+
+	static IplImage *qimage_to_iplimage(const QImage* image);
 };
 
