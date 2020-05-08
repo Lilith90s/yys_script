@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FSM.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PointFinder.cpp" />
     <ClCompile Include="yys_script.cpp" />
@@ -99,6 +100,8 @@
     <QtRcc Include="yys_script.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enum.h" />
+    <ClInclude Include="FSM.h" />
     <ClInclude Include="PointFinder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,6 +2,8 @@
 
 #include  <Windows.h>
 #include <QtWidgets/QMainWindow>
+
+#include "FSM.h"
 #include "ui_yys_script.h"
 //1，开始都要先定义个钩子
 static HHOOK hook;
@@ -21,19 +23,19 @@ class yys_script : public QMainWindow
 public:
 	yys_script(QWidget *parent = Q_NULLPTR);
 	~yys_script();
+
+	void run();
 private slots:
 	/**
 	 * \brief 
 	 */
-	void on_testButton_clicked();
+	void on_ExploreButton_clicked() const;
 	
 private:
-
-	void send_click(QPoint& pos);
 	
 	Ui::yys_scriptClass ui;
 
 	HWND hd_;
 
-	
+	FSM* fsm_;
 };

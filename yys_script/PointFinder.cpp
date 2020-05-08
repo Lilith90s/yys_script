@@ -22,10 +22,16 @@ auto PointFinder::get_discovery_pos(HWND hd) -> QPoint
 	return QPoint(-1,-1);
 }
 
-QPoint PointFinder::get_explore_pos(const HWND hd)
+QPoint PointFinder::get_chapter_pos(const HWND hd)
 {
-	auto explore_image_name = QString::fromLocal8Bit("17.jpg");
-	return find_pos(hd, explore_image_name);
+	auto image_name = QString::fromLocal8Bit("./assets/17.jpg");
+	return find_pos(hd, image_name);
+}
+
+QPoint PointFinder::get_explore_pos(HWND hd)
+{
+	auto image_name = QString::fromLocal8Bit("./assets/explore_button.jpg");
+	return find_pos(hd, image_name);
 }
 
 bool PointFinder::check_color(QColor& color1, QColor& color2)

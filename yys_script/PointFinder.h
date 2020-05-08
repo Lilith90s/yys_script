@@ -21,6 +21,8 @@ public:
 	 */
 	static QPoint get_discovery_pos(HWND hd);
 
+	static QPoint get_chapter_pos(HWND hd);
+
 	static QPoint get_explore_pos(HWND hd);
 
 	static bool check_color(QColor& color1,QColor& color2);
