@@ -80,8 +80,13 @@ void yys_script::run()
 	fsm_->start();
 }
 
-void yys_script::on_ExploreButton_clicked() const
-{																								
+void yys_script::on_ExploreButton_clicked()
+{
+	if (fsm_ == nullptr)
+	{
+		fsm_ = new FSM(hd_);
+	}
+	fsm_->start();
 	fsm_->SetTransition(transition::Transition::EXPLORE);
 }
 
@@ -90,6 +95,16 @@ void yys_script::on_screenShotsButton_clicked() const
 	auto screen = QGuiApplication::primaryScreen();
 	const auto map = screen->grabWindow(reinterpret_cast<WId>(hd_)/*,578,122,41,39*/);
 	map.save("shots.jpg", "JPG");
+}
+
+void yys_script::on_stopButton_clicked() const
+{
+	fsm_->terminate();
+}
+
+void yys_script::closeEvent(QCloseEvent* event)
+{
+	fsm_->terminate();
 }
 
 

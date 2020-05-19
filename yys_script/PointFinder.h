@@ -27,6 +27,8 @@ public:
 
 	static QPoint get_challenge_pos(HWND hd);
 
+	static QPoint get_prepare_pos(HWND hd);
+
 	static QPoint get_challenge_result_pos(HWND hd);
 
 	static QPoint get_boss_pos(HWND hd);
@@ -42,5 +44,8 @@ public:
 	static IplImage *qimage_to_iplimage(const QImage* image);
 
 	static bool is_valid_pos(QPoint &pos);
+
+public:
+	static float pr_score;  // ∆•≈‰„–÷µ
 };
 

@@ -65,6 +65,7 @@ void FSM::Explore()
 			while (pos == QPoint(0,0))
 			{
 				pos = PointFinder::get_chapter_pos(hd_, "1");
+
 			}
 			explore_status.change_status(explore::WAIT_FOR_EXPLORE_CLICK);
 			break;	

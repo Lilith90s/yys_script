@@ -10,6 +10,8 @@
 #include <QImage>
 #include <QDebug>
 #define RANGE_EXP(a,b) abs((a) - (b)) <= 10
+
+float PointFinder::pr_score = 0.96;
 LPARAM PointFinder::TransaltePointToLPARAM(QPoint point)
 {
 	LPARAM ret = point.y();
@@ -39,6 +41,12 @@ QPoint PointFinder::get_explore_pos(HWND hd)
 QPoint PointFinder::get_challenge_pos(HWND hd)
 {
 	auto image_name = QString::fromLocal8Bit("./assets/challenge.jpg");
+	return find_pos(hd, image_name);
+}
+
+QPoint PointFinder::get_prepare_pos(HWND hd)
+{
+	auto image_name = QString::fromLocal8Bit("./assets/prepare.jpg");
 	return find_pos(hd, image_name);
 }
 
@@ -163,9 +171,9 @@ QPoint PointFinder::find_pos(HWND hd, QString& dst_name)
 	// cvShowImage("tem", templat);
 	//
 	// 是否符合查找图片
-	auto PrScore = 0.99;  // 匹配阈值
+
 	const auto similarity_min =  CV_IMAGE_ELEM(result, float, minLoc.y, minLoc.x);
-	if ((1- similarity_min) > 0.95)
+	if ((1- similarity_min) > pr_score)
 	{
 		// 是需要查找的图片
 		const auto x = minLoc.x + (templat->width) / 2;

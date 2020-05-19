@@ -29,9 +29,15 @@ private slots:
 	/**
 	 * \brief 
 	 */
-	void on_ExploreButton_clicked() const;
+	void on_ExploreButton_clicked();
 
 	void on_screenShotsButton_clicked() const;
+
+	void on_stopButton_clicked() const;
+
+protected:
+
+	void closeEvent(QCloseEvent* event) override;
 	
 private:
 	
