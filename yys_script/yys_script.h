@@ -5,6 +5,7 @@
 
 #include "FSM.h"
 #include "ui_yys_script.h"
+
 //1，开始都要先定义个钩子
 static HHOOK hook;
 

@@ -28,7 +28,7 @@ auto PointFinder::get_discovery_pos(HWND hd) -> QPoint
 
 QPoint PointFinder::get_chapter_pos(const HWND hd,QString chapter)
 {
-	auto image_name = QString::fromLocal8Bit("./assets/")+chapter+".jpg";
+	auto image_name = QString::fromLocal8Bit("./assets/chapters/")+chapter+".jpg";
 	return find_pos(hd, image_name);
 }
 

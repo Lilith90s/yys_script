@@ -15,6 +15,8 @@ public:
 	
 	void run() override;
 
+	void set_explore_chapter(const QString chapter);
+	
 	/**
 	 * \brief 
 	 * \param transition 
@@ -33,4 +35,5 @@ private:
 	 */
 	transition::Transition transition_;
 	HWND hd_;
+	QString chapter_str_;
 };

@@ -34,6 +34,11 @@ void FSM::run()
 	}	
 }
 
+void FSM::set_explore_chapter(const QString chapter)
+{
+	chapter_str_ = chapter;
+}
+
 void FSM::SetTransition(const transition::Transition transition)
 {
 	this->transition_ = transition;
@@ -44,7 +49,6 @@ void FSM::Explore()
 	static auto explore_status = Status<explore::Explore>(explore::NONE,explore::WAIT_FOR_CHAPTER_CLICK);
 	static auto is_boss = false;		// boss需要切换到拾取宝箱
 	static auto is_first_monster = true; // 第一只怪需要等待加载时间
-	static QString chapter = "1";
 	RECT rect;
 	GetWindowRect(hd_, &rect);
 	if (hd_)
@@ -56,15 +60,16 @@ void FSM::Explore()
 
 		case explore::WAIT_FOR_CHAPTER_CLICK:
 		{
+			Sleep(3000);
 			if (explore_status.status_pre != explore::WAIT_FOR_CHAPTER_CLICK)
 			{
-				auto msg = QString::fromLocal8Bit("探索第") + chapter +QString::fromLocal8Bit( "章");
+				auto msg = QString::fromLocal8Bit("探索第") + chapter_str_ +QString::fromLocal8Bit( "章");
 				emit MessageSignal(msg); 
 			}
-			pos = PointFinder::get_chapter_pos(hd_, "1");
+			pos = PointFinder::get_chapter_pos(hd_, chapter_str_);
 			while (pos == QPoint(0,0))
 			{
-				pos = PointFinder::get_chapter_pos(hd_, "1");
+				pos = PointFinder::get_chapter_pos(hd_, chapter_str_);
 			}
 			explore_status.change_status(explore::WAIT_FOR_EXPLORE_CLICK);
 			break;	
@@ -143,10 +148,12 @@ void FSM::Explore()
 				// 维持挑战
 				pos = PointFinder::get_challenge_result_pos(hd_);
 			}
-			// 挑战结束，等待5s加载
-			Sleep(5000);
+			Sleep(1500);
+			send_click(pos);
 			if (is_boss == true)
 			{
+				// 挑战结束，等待5s加载
+				Sleep(5000);
 				// 打的是boss怪,切换到拾取宝箱状态
 				explore_status.change_status(explore::PICKING_UP_CHEST);
 				is_boss = false;
@@ -155,6 +162,7 @@ void FSM::Explore()
 			{
 				explore_status.change_status(explore::FINDING_MONSTER);
 			}
+			return;
 			break;
 		}
 		case explore::FINDING_LEADER:
@@ -184,7 +192,7 @@ void FSM::Explore()
 			{
 				emit MessageSignal(QString::fromLocal8Bit("拾取宝箱中..."));
 			}
-			auto chapter_pos = PointFinder::get_chapter_pos(hd_,chapter); // 章节位置
+			auto chapter_pos = PointFinder::get_chapter_pos(hd_, chapter_str_); // 章节位置
 			auto explore_pos = PointFinder::get_explore_pos(hd_);		// 探索按钮位置
 			while (true) // 判断是否宝箱拾取完毕并且到达选择章节界面
 			{
@@ -208,8 +216,8 @@ void FSM::Explore()
 				}
 
 				// 检查是否出现章节按钮，由于不会返回到
-				chapter_pos = PointFinder::get_chapter_pos(hd_, chapter);
-				if (PointFinder::is_valid_pos(explore_pos))
+				chapter_pos = PointFinder::get_chapter_pos(hd_, chapter_str_);
+				if (PointFinder::is_valid_pos(chapter_pos))
 				{
 					auto msg = QString::fromLocal8Bit("宝箱拾取完毕，有发现！");
 					emit MessageSignal(msg);

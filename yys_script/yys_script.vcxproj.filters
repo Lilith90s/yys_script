@@ -37,12 +37,18 @@
     <ClCompile Include="FSM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ItemManger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="yys_script.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="FSM.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ItemManger.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

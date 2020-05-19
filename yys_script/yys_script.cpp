@@ -86,6 +86,7 @@ void yys_script::on_ExploreButton_clicked()
 	{
 		fsm_ = new FSM(hd_);
 	}
+	fsm_->set_explore_chapter(ui.selectChapterCombox->currentText());
 	fsm_->start();
 	fsm_->SetTransition(transition::Transition::EXPLORE);
 }

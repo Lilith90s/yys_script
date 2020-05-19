@@ -25,6 +25,20 @@
        </widget>
       </item>
       <item>
+       <widget class="QComboBox" name="selectChapterCombox">
+        <item>
+         <property name="text">
+          <string>28</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="screenShotsButton">
         <property name="text">
          <string>截屏</string>
