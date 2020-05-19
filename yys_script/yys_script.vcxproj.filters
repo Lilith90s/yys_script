@@ -42,6 +42,9 @@
     <QtMoc Include="yys_script.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="FSM.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="yys_script.ui">
@@ -57,10 +60,10 @@
     <ClInclude Include="PointFinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FSM.h">
+    <ClInclude Include="Enum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Enum.h">
+    <ClInclude Include="Status.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

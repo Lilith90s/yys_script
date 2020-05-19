@@ -30,6 +30,8 @@ private slots:
 	 * \brief 
 	 */
 	void on_ExploreButton_clicked() const;
+
+	void on_screenShotsButton_clicked() const;
 	
 private:
 	

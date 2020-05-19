@@ -2,6 +2,7 @@
 #include "FSM.h"
 #include <QDebug>
 #include "PointFinder.h"
+#include "Status.h"
 
 
 /**
@@ -9,7 +10,7 @@
  * \param hd 
  */
 FSM::FSM(const HWND hd)
-	:transition_(Transition::NONE)
+	:transition_(transition::Transition::NONE)
 	,hd_(hd)
 {
 	
@@ -17,41 +18,212 @@ FSM::FSM(const HWND hd)
 
 void FSM::run()
 {
+	
 	// 启动线程
 	while (true)
 	{
 		switch (transition_)
 		{
-		case NONE: break;
-		case EXPLORE:
+		case transition::NONE: break;
+		case transition::EXPLORE:
 			Explore();
 			break;
-		case WAITING: break;
+		case transition::WAITING: break;
 		default: ;
 		}
 	}	
 }
 
-void FSM::SetTransition(const Transition transition)
+void FSM::SetTransition(const transition::Transition transition)
 {
 	this->transition_ = transition;
 }
 
-void FSM::Explore() const
+void FSM::Explore()
 {
+	static auto explore_status = Status<explore::Explore>(explore::NONE,explore::WAIT_FOR_CHAPTER_CLICK);
+	static auto is_boss = false;		// boss需要切换到拾取宝箱
+	static auto is_first_monster = true; // 第一只怪需要等待加载时间
+	static QString chapter = "1";
+	RECT rect;
+	GetWindowRect(hd_, &rect);
 	if (hd_)
 	{
-		auto pos = PointFinder::get_explore_pos(hd_);
-		qDebug() << pos;
-		if (pos.x() != -1)
+		QPoint pos;
+		switch (explore_status.status_now)
 		{
+		case explore::NONE: break;
 
+		case explore::WAIT_FOR_CHAPTER_CLICK:
+		{
+			if (explore_status.status_pre != explore::WAIT_FOR_CHAPTER_CLICK)
+			{
+				auto msg = QString::fromLocal8Bit("探索第") + chapter +QString::fromLocal8Bit( "章");
+				emit MessageSignal(msg); 
+			}
+			pos = PointFinder::get_chapter_pos(hd_, "1");
+			while (pos == QPoint(0,0))
+			{
+				pos = PointFinder::get_chapter_pos(hd_, "1");
+
+			}
+			explore_status.change_status(explore::WAIT_FOR_EXPLORE_CLICK);
+			break;	
 		}
-		send_click(pos);
-	}
-	else
-	{
+		case explore::WAIT_FOR_EXPLORE_CLICK:
+		{
+			Sleep(2000);
+			pos = PointFinder::get_explore_pos(hd_);
+			// 切换到查找怪物
+			while (pos.x() == 0 && pos.y() == 0)
+			{
+				pos = PointFinder::get_explore_pos(hd_);
+			}
+			explore_status.change_status(explore::FINDING_MONSTER);
+			is_first_monster = true;
+			break;
+		}	
+		case explore::FINDING_MONSTER:
+		{
+			if (is_first_monster)
+			{
+				// 睡眠3s等待
+				Sleep(3000);
+				is_first_monster = false;
+			}
+			// 优先查找首领
+			pos = PointFinder::get_boss_pos(hd_);
+			if (pos.x() != 0 && pos.y() != 0)
+			{
+				if (explore_status.status_pre != explore::FINDING_LEADER)
+				{
+					emit MessageSignal(QString::fromLocal8Bit("发现首领!"));
+				}
+				is_boss = true;
+				explore_status.change_status(explore::IN_CHALLENGING);
+				break;
+			}
+
+			// 未找到首领，开始查找普通怪物
+			if (explore_status.status_pre != explore::FINDING_MONSTER)
+			{
+				emit MessageSignal(QString::fromLocal8Bit("查找怪物..."));
+			}	
+			pos = PointFinder::get_challenge_pos(hd_);
+			if (pos.x() == 0 && pos.y() == 0)
+			{
+				// 屏幕上没有怪了，切换到走动
+				explore_status.change_status(explore::WALKING);
+			}
+			else
+			{
+				// 切换到挑战中
+				explore_status.change_status(explore::IN_CHALLENGING);
+			}
+
+			break;
+		}
+		case explore::IN_CHALLENGING:
+		{
+			if (explore_status.status_pre != explore::IN_CHALLENGING)
+			{
+				emit MessageSignal(QString::fromLocal8Bit("打怪中.."));
+			}
+			// 睡眠10s，等待打怪
+			Sleep(10 * 1000);
+			pos = PointFinder::get_challenge_result_pos(hd_);
+			while (pos.x() == 0 && pos.y() == 0)
+			{
+				// 维持挑战
+				pos = PointFinder::get_challenge_result_pos(hd_);
+			}
+			// 挑战结束，等待5s加载
+			Sleep(5000);
+			if (is_boss == true)
+			{
+				// 打的是boss怪,切换到拾取宝箱状态
+				explore_status.change_status(explore::PICKING_UP_CHEST);
+				is_boss = false;
+			}
+			else
+			{
+				explore_status.change_status(explore::FINDING_MONSTER);
+			}
+			break;
+		}
+		case explore::FINDING_LEADER:
+		{
+			break;
+		}
+		case explore::WALKING:
+		{
+			if (explore_status.status_pre != explore::WALKING)
+			{
+				emit MessageSignal(QString::fromLocal8Bit("当前屏幕没有怪物，走动中..."));
+			}
+			
+			// 向前走
+
+			pos = QPoint(rect.right-170, 520);
+			// 等待2秒，让人物走到地点
+			Sleep(2000);
+			// 回到查找怪物模式
+			explore_status.change_status(explore::FINDING_MONSTER);
+			break;
+		};
+		case explore::PICKING_UP_CHEST:
+		{
+			
+			if (explore_status.status_pre != explore::PICKING_UP_CHEST)
+			{
+				emit MessageSignal(QString::fromLocal8Bit("拾取宝箱中..."));
+			}
+			auto chapter_pos = PointFinder::get_chapter_pos(hd_,chapter); // 章节位置
+			auto explore_pos = PointFinder::get_explore_pos(hd_);		// 探索按钮位置
+			while (true) // 判断是否宝箱拾取完毕并且到达选择章节界面
+			{
+				// 继续查找宝箱
+				pos = PointFinder::get_chest_pos(hd_);
+				// 捡起宝箱
+				send_click(pos);
+				// 点击确定，取消宝物模态框
+				Sleep(1500);
+				send_click(QPoint(rect.bottom - 120, rect.right / 2));
+				// 检查是否出现探索按钮
+				explore_pos = PointFinder::get_explore_pos(hd_);
+				if (PointFinder::is_valid_pos(explore_pos))
+				{
+					auto msg = QString::fromLocal8Bit("宝箱拾取完毕，开始下一次挑战...");
+					emit MessageSignal(msg);
+
+					// 一次副本完毕，直接返回重来
+					explore_status.change_status(explore::WAIT_FOR_EXPLORE_CLICK);
+					return;
+				}
+
+				// 检查是否出现章节按钮，由于不会返回到
+				chapter_pos = PointFinder::get_chapter_pos(hd_, chapter);
+				if (PointFinder::is_valid_pos(explore_pos))
+				{
+					auto msg = QString::fromLocal8Bit("宝箱拾取完毕，有发现！");
+					emit MessageSignal(msg);
+					// 发现宝箱，返回选取章节界面
+					explore_status.change_status(explore::WAIT_FOR_CHAPTER_CLICK);
+					return;
+				}
+			}
+		}
+
+		default:;
+		}
 		
+		// qDebug() << pos;
+		if (pos.x() != 0 && pos.y() != 0)
+		{
+			// send_click(QPoint(rect.bottom - 120, rect.right / 2));
+			send_click(pos);
+		}
+
 	}
 }
 void FSM::send_click(QPoint& pos) const

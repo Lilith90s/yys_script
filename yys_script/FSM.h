@@ -5,7 +5,7 @@
 
 class FSM: public QThread
 {
-	
+	Q_OBJECT
 public:
 	/**
 	 * \brief 
@@ -15,18 +15,22 @@ public:
 	
 	void run() override;
 
-	void SetTransition(Transition transition);
+	/**
+	 * \brief 
+	 * \param transition 
+	 */
+	void SetTransition(transition::Transition transition);
 signals:
 	void MessageSignal(QString &msg);
 private:
 
-	void Explore() const;
+	void Explore();
 
 	auto send_click(QPoint& pos) const -> void;
 	
 	/**
 	 * \brief 
 	 */
-	Transition transition_;
+	transition::Transition transition_;
 	HWND hd_;
 };
