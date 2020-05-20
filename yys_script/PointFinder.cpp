@@ -139,12 +139,12 @@ QPoint PointFinder::find_pos(HWND hd, QString& dst_name)
 	//加载源图像
 	auto screen = QGuiApplication::primaryScreen();
 	const auto map = screen->grabWindow(reinterpret_cast<WId>(hd)/*,578,122,41,39*/);
-	map.save("shots.jpg","JPG");
+	map.save("shots.jpg", "JPG");
 	auto screenshots = map.toImage();
 
 	// 将QImage转换为Image
 	src = cvLoadImage("shots.jpg", CV_LOAD_IMAGE_GRAYSCALE);
-	
+
 	//用于显示结果
 	show = cvLoadImage("shots.jpg");
 	// cvNamedWindow("show");
@@ -192,17 +192,25 @@ QPoint PointFinder::find_pos(HWND hd, QString& dst_name)
 	//
 	// 是否符合查找图片
 
-	const auto similarity_min =  CV_IMAGE_ELEM(result, float, minLoc.y, minLoc.x);
-	if ((1- similarity_min) > pr_score)
+	const auto similarity_min = CV_IMAGE_ELEM(result, float, minLoc.y, minLoc.x);
+	if ((1 - similarity_min) > pr_score)
 	{
 		// 是需要查找的图片
 		const auto x = minLoc.x + (templat->width) / 2;
 		const auto y = minLoc.y + (templat->height) / 2;
 		const auto ret = QPoint(x, y);
+		cvReleaseImage(&src);
+		cvReleaseImage(&templat);
+		cvReleaseImage(&show);
+		cvReleaseImage(&result);
 		return ret;
 	}
 	else
 	{
+		cvReleaseImage(&src);
+		cvReleaseImage(&templat);
+		cvReleaseImage(&show);
+		cvReleaseImage(&result);
 		// 不是需要查找的图片
 		return QPoint(0, 0);
 	}
