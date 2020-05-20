@@ -2,7 +2,8 @@
 #include <QThread>
 #include "Enum.h"
 #include <Windows.h>
-
+#include "ItemManger.h"
+#include <vector>
 class FSM: public QThread
 {
 	Q_OBJECT
@@ -16,7 +17,8 @@ public:
 	void run() override;
 
 	void set_explore_chapter(const QString chapter);
-	
+
+	void add_item_monitor(ItemBase* item);
 	/**
 	 * \brief 
 	 * \param transition 
@@ -36,4 +38,5 @@ private:
 	transition::Transition transition_;
 	HWND hd_;
 	QString chapter_str_;
+	std::vector<ItemBase*> item_bases_;
 };

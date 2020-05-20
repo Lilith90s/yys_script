@@ -2,6 +2,7 @@
 #include <core.hpp>
 #include <QPoint>
 #include <Windows.h>
+#include "ItemManger.h"
 class QImage;
 class QColor;
 
@@ -34,6 +35,10 @@ public:
 	static QPoint get_boss_pos(HWND hd);
 
 	static QPoint get_chest_pos(HWND hd);
+
+	static void count_items(HWND hd, std::vector<ItemBase*>& items_vector);
+
+	static int count_item_number(HWND hd,ItemBase* item);
 	
 	static bool check_color(QColor& color1,QColor& color2);
 

@@ -39,6 +39,11 @@ void FSM::set_explore_chapter(const QString chapter)
 	chapter_str_ = chapter;
 }
 
+void FSM::add_item_monitor(ItemBase* item)
+{
+	item_bases_.push_back(item);
+}
+
 void FSM::SetTransition(const transition::Transition transition)
 {
 	this->transition_ = transition;
@@ -136,10 +141,10 @@ void FSM::Explore()
 			// 睡眠10s，等待准备
 			Sleep(2000);
 			auto prepare_pos = PointFinder::get_prepare_pos(hd_);
-			while (!PointFinder::is_valid_pos(prepare_pos))
-			{
-				prepare_pos = PointFinder::get_prepare_pos(hd_);
-			}
+			// while (!PointFinder::is_valid_pos(prepare_pos))
+			// {
+			// 	prepare_pos = PointFinder::get_prepare_pos(hd_);
+			// }
 			send_click(prepare_pos);
 				
 			pos = PointFinder::get_challenge_result_pos(hd_);
@@ -149,6 +154,7 @@ void FSM::Explore()
 				pos = PointFinder::get_challenge_result_pos(hd_);
 			}
 			Sleep(1500);
+			PointFinder::count_items(hd_, item_bases_);
 			send_click(pos);
 			if (is_boss == true)
 			{
@@ -178,7 +184,7 @@ void FSM::Explore()
 			
 			// 向前走
 
-			pos = QPoint(rect.right-170, 520);
+			pos = QPoint(1000, 500);
 			// 等待2秒，让人物走到地点
 			Sleep(2000);
 			// 回到查找怪物模式
@@ -202,6 +208,7 @@ void FSM::Explore()
 				send_click(pos);
 				// 点击确定，取消宝物模态框
 				Sleep(1500);
+				PointFinder::count_items(hd_, item_bases_);
 				send_click(QPoint(rect.bottom - 120, rect.right / 2));
 				// 检查是否出现探索按钮
 				explore_pos = PointFinder::get_explore_pos(hd_);
