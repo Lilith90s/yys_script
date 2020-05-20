@@ -36,6 +36,8 @@ private slots:
 
 	void on_stopButton_clicked() const;
 
+	void on_breakthrough_ticket_item_num_changed(int n_i) const;
+	
 protected:
 
 	void closeEvent(QCloseEvent* event) override;
@@ -47,4 +49,6 @@ private:
 	HWND hd_;
 
 	FSM* fsm_;
+
+	BreakthroughTicketItem* breakthrough_ticket_item_{nullptr};
 };

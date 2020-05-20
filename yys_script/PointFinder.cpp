@@ -69,6 +69,26 @@ QPoint PointFinder::get_chest_pos(HWND hd)
 	return find_pos(hd, image_name);
 }
 
+void PointFinder::count_items(HWND hd, std::vector<ItemBase*>& items_vector)
+{
+	for (auto* item_base : items_vector)
+	{
+		count_item_number(hd, item_base);
+	}
+}
+
+int PointFinder::count_item_number(HWND hd, ItemBase* item)
+{
+	auto image_name = item->item_image_path();
+	auto pos = find_pos(hd, image_name);
+	if (is_valid_pos(pos))
+	{
+		item->add_num(1);
+		return 1;
+	}
+	return 0;
+}
+
 bool PointFinder::check_color(QColor& color1, QColor& color2)
 {
 	const auto r1 = color1.red();

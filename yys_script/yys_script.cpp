@@ -86,6 +86,12 @@ void yys_script::on_ExploreButton_clicked()
 	{
 		fsm_ = new FSM(hd_);
 	}
+	if (breakthrough_ticket_item_ == nullptr)
+	{
+		breakthrough_ticket_item_ = new BreakthroughTicketItem;
+		connect(breakthrough_ticket_item_, &BreakthroughTicketItem::num_changed, this, &yys_script::on_breakthrough_ticket_item_num_changed);
+	}
+	fsm_->add_item_monitor(breakthrough_ticket_item_);
 	fsm_->set_explore_chapter(ui.selectChapterCombox->currentText());
 	fsm_->start();
 	fsm_->SetTransition(transition::Transition::EXPLORE);
@@ -102,6 +108,12 @@ void yys_script::on_stopButton_clicked() const
 {
 	fsm_->terminate();
 }
+
+void yys_script::on_breakthrough_ticket_item_num_changed(int n_i) const
+{
+	ui.breakTicketLabel->setText(QString::number(n_i));
+}
+
 
 void yys_script::closeEvent(QCloseEvent* event)
 {

@@ -1,5 +1,6 @@
 <RCC>
-    <qresource prefix="/yys_script">
-        <file>discovery.jpg</file>
-    </qresource>
+  <qresource prefix="/yys_script">
+    <file>assets/items/breakthrough_ticket.jpg</file>
+    <file>discovery.jpg</file>
+  </qresource>
 </RCC>

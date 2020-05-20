@@ -8,6 +8,10 @@ public:
 	virtual QString item_image_path() = 0;
 	void add_num(const int i)
 	{
+		if (!i)
+		{
+			return;
+		}
 		num_i_ += i;
 		emit num_changed(num_i_);
 	};
