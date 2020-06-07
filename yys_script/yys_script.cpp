@@ -57,7 +57,7 @@ yys_script::yys_script(QWidget *parent)
 		connect(fsm_,&FSM::MessageSignal,[this](QString &msg)
 		{
 			this->ui.logWidget->addItem(msg);
-			ui.logWidget->verticalScrollBar()->setValue(99);
+			ui.logWidget->verticalScrollBar()->setValue(ui.logWidget->verticalScrollBar()->maximum());
 		});
 	}
 	else

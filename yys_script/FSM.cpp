@@ -81,7 +81,7 @@ void FSM::Explore()
 		}
 		case explore::WAIT_FOR_EXPLORE_CLICK:
 		{
-			Sleep(2000);
+			Sleep(3000);
 			pos = PointFinder::get_explore_pos(hd_);
 			// 切换到查找怪物
 			while (pos.x() == 0 && pos.y() == 0)
@@ -207,7 +207,7 @@ void FSM::Explore()
 				// 捡起宝箱
 				send_click(pos);
 				// 点击确定，取消宝物模态框
-				Sleep(1500);
+				Sleep(700);
 				PointFinder::count_items(hd_, item_bases_);
 				send_click(QPoint(rect.bottom - 120, rect.right / 2));
 				// 检查是否出现探索按钮
