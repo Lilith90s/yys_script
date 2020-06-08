@@ -4,7 +4,7 @@
 
 #include "ExploreModel.h"
 #include "PointFinder.h"
-#include "StatusManager.h"
+#include "Status1.h"
 
 
 /**
@@ -53,7 +53,7 @@ void FSM::SetTransition(const transition::Transition transition)
 
 void FSM::Explore()
 {
-	static auto explore_status = Status<explore::Explore>(explore::NONE,explore::WAIT_FOR_CHAPTER_CLICK);
+	static auto explore_status = Status1<explore::Explore>(explore::NONE,explore::WAIT_FOR_CHAPTER_CLICK);
 	static auto is_boss = false;		// boss需要切换到拾取宝箱
 	static auto is_first_monster = true; // 第一只怪需要等待加载时间
 	RECT rect;
@@ -154,8 +154,16 @@ void FSM::Explore()
 			{
 				// 维持挑战
 				pos = PointFinder::get_challenge_result_pos(hd_);
+				auto challenge_pos = PointFinder::get_challenge_pos(hd_);
+				// 已经出来或者没有进入挑战
+				if (PointFinder::is_valid_pos(challenge_pos))
+				{
+					break;
+				}
 			}
 			Sleep(1500);
+
+				
 			PointFinder::count_items(hd_, item_bases_);
 			send_click(pos);
 			if (is_boss == true)

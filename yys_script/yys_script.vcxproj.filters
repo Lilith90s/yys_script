@@ -81,7 +81,7 @@
     <ClInclude Include="ExploreModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Status.h">
+    <ClInclude Include="Status1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
