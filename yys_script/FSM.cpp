@@ -1,8 +1,10 @@
 ﻿// ReSharper disable CppClangTidyMiscMisplacedConst
 #include "FSM.h"
 #include <QDebug>
+
+#include "ExploreModel.h"
 #include "PointFinder.h"
-#include "Status.h"
+#include "StatusManager.h"
 
 
 /**

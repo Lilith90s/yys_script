@@ -14,9 +14,6 @@ namespace transition
 	};
 }
 
-
-
-
 /**
  * \brief 状态
  */
@@ -34,6 +31,9 @@ namespace explore
 		WALKING,					// 走动
 	};
 }
+
+
+
 
 
 

@@ -40,6 +40,12 @@
     <ClCompile Include="ItemManger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AbstractModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExploreModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="yys_script.h">
@@ -69,8 +75,17 @@
     <ClInclude Include="Enum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AbstractModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExploreModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Status.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\readme.md" />
   </ItemGroup>
 </Project>
