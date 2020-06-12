@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QScreen>
 #include <QScrollBar>
+#include <QTextCursor>
 #include "PointFinder.h"
 
 LRESULT mouseHook(int nCode, WPARAM wParam, LPARAM lParam)
@@ -52,17 +53,17 @@ yys_script::yys_script(QWidget *parent)
 	GetProcessId(hd_);
 	if (hd_)
 	{
-		ui.logWidget->addItem(QString::fromLocal8Bit("获取") + QString::fromLocal8Bit(title1) + QString::fromLocal8Bit("成功:") + QString::number(pid));
+		ui.logBrowser->append(QString::fromLocal8Bit("获取") + QString::fromLocal8Bit(title1) + QString::fromLocal8Bit("成功:") + QString::number(pid));
 		fsm_ = new FSM(hd_);
 		connect(fsm_,&FSM::MessageSignal,[this](QString &msg)
 		{
-			this->ui.logWidget->addItem(msg);
-			ui.logWidget->verticalScrollBar()->setValue(99);
+			this->ui.logBrowser->append(msg);
+			ui.logBrowser->moveCursor(QTextCursor::End);
 		});
 	}
 	else
 	{
-		ui.logWidget->addItem(QString::fromLocal8Bit("获取窗口句柄异常!阴阳师未启动！"));
+		ui.logBrowser->append(QString::fromLocal8Bit("获取窗口句柄异常!阴阳师未启动！"));
 	}
 	RECT yys_rect;
 	GetWindowRect(hd_, &yys_rect);

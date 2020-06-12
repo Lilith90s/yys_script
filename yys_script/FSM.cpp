@@ -160,6 +160,7 @@ void FSM::Explore()
 				{
 					break;
 				}
+				sleep(2000);
 			}
 			Sleep(1500);
 
