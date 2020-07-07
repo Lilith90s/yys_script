@@ -46,6 +46,12 @@
     <ClCompile Include="ExploreModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BreakBoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextFinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="yys_script.h">
@@ -55,6 +61,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="ItemManger.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="BreakBoder.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -84,8 +93,13 @@
     <ClInclude Include="Status1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextFinder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\readme.md" />
+    <None Include="log.css" />
+    <None Include="style.css" />
   </ItemGroup>
 </Project>

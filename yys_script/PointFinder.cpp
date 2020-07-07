@@ -132,13 +132,23 @@ bool PointFinder::check_image(QImage& src, QImage& dst, QPoint& pos)
 	return true;
 }
 
-QPoint PointFinder::find_pos(HWND hd, QString& dst_name)
+QPoint PointFinder::find_pos(HWND hd, QString& dst_name, QRect &rect/* = QRect(0,0,0,0)*/)
 {
 	IplImage *src, *templat, *result, *show;
 	int srcW, templatW, srcH, templatH, resultW, resultH;
 	//¼ÓÔØÔ´Í¼Ïñ
 	auto screen = QGuiApplication::primaryScreen();
-	const auto map = screen->grabWindow(reinterpret_cast<WId>(hd)/*,578,122,41,39*/);
+	
+	QPixmap map;
+	if (rect == QRect(0,0,0,0))
+	{
+		map = screen->grabWindow(reinterpret_cast<WId>(hd)/*,578,122,41,39*/);
+	}
+	else
+	{
+		map = screen->grabWindow(reinterpret_cast<WId>(hd),rect.x(),rect.y(),rect.width(),rect.height());
+	}
+	
 	map.save("shots.jpg", "JPG");
 	auto screenshots = map.toImage();
 
@@ -239,3 +249,14 @@ bool PointFinder::is_valid_pos(QPoint& pos)
 {
 	return pos.x() != 0 || pos.y() != 0;
 }
+void PointFinder::send_click(QPoint& pos,HWND hd)
+{
+	SendMessage(hd, WM_LBUTTONDOWN, MK_LBUTTON, PointFinder::TransaltePointToLPARAM(pos));
+	SendMessage(hd, WM_LBUTTONUP, 0, PointFinder::TransaltePointToLPARAM(pos));
+}
+
+void PointFinder::send_esc(HWND hd)
+{
+	
+}
+

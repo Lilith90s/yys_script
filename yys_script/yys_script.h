@@ -1,8 +1,8 @@
 #pragma once
 
-#include  <Windows.h>
+#include <Windows.h>
 #include <QtWidgets/QMainWindow>
-
+#include "BreakBoder.h"
 #include "FSM.h"
 #include "ui_yys_script.h"
 
@@ -32,11 +32,16 @@ private slots:
 	 */
 	void on_ExploreButton_clicked();
 
+	// 开始结界突破
+	void on_startBreakButton_clicked();
+
 	void on_screenShotsButton_clicked() const;
 
 	void on_stopButton_clicked() const;
 
 	void on_breakthrough_ticket_item_num_changed(int n_i) const;
+
+	void recevie_messages(QString msg);
 	
 protected:
 
@@ -50,5 +55,8 @@ private:
 
 	FSM* fsm_;
 
+	BreakBoder* break_boder_ = nullptr;
+
+	
 	BreakthroughTicketItem* breakthrough_ticket_item_{nullptr};
 };

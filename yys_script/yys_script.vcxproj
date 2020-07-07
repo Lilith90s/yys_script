@@ -48,11 +48,11 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <QtInstall>msvc2017_64</QtInstall>
+    <QtInstall>Qt5.9.1</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtInstall>msvc2017_64</QtInstall>
+    <QtInstall>Qt5.9.1</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
@@ -81,6 +81,7 @@
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -92,11 +93,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AbstractModel.cpp" />
+    <ClCompile Include="BreakBoder.cpp" />
     <ClCompile Include="ExploreModel.cpp" />
     <ClCompile Include="FSM.cpp" />
     <ClCompile Include="ItemManger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PointFinder.cpp" />
+    <ClCompile Include="TextFinder.cpp" />
     <ClCompile Include="yys_script.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +113,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractModel.h" />
+    <ClInclude Include="TextFinder.h" />
+    <QtMoc Include="BreakBoder.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="Status1.h" />
     <QtMoc Include="ItemManger.h" />
@@ -119,6 +124,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\readme.md" />
+    <None Include="log.css" />
+    <None Include="style.css" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

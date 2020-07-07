@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>330</width>
+    <width>299</width>
     <height>433</height>
    </rect>
   </property>
@@ -14,7 +14,10 @@
    <string>yys_script</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,10">
+    <property name="spacing">
+     <number>2</number>
+    </property>
     <property name="leftMargin">
      <number>2</number>
     </property>
@@ -30,11 +33,11 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>配置</string>
+        <string>探索</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="leftMargin">
@@ -54,7 +57,7 @@
           <item>
            <widget class="QPushButton" name="ExploreButton">
             <property name="text">
-             <string>探索</string>
+             <string>开始</string>
             </property>
            </widget>
           </item>
@@ -82,7 +85,7 @@
           <item>
            <widget class="QPushButton" name="stopButton">
             <property name="text">
-             <string>停止</string>
+             <string>暂停</string>
             </property>
            </widget>
           </item>
@@ -101,8 +104,19 @@
           </item>
          </layout>
         </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>突破</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QTextBrowser" name="logBrowser"/>
+         <widget class="QPushButton" name="startBreakButton">
+          <property name="text">
+           <string>开始突破</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -159,25 +173,10 @@
       </widget>
      </widget>
     </item>
+    <item>
+     <widget class="QListWidget" name="listWidget"/>
+    </item>
    </layout>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>330</width>
-     <height>23</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

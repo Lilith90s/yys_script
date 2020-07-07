@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QScreen>
 #include <QScrollBar>
+#include <QFile>
 #include <QTextCursor>
 #include "PointFinder.h"
 
@@ -44,6 +45,9 @@ yys_script::yys_script(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+
+	
+	
 	// set_mousehook();
 	wchar_t* title = L"阴阳师-网易游戏";
 	hd_ = FindWindow(nullptr, title);
@@ -53,17 +57,18 @@ yys_script::yys_script(QWidget *parent)
 	GetProcessId(hd_);
 	if (hd_)
 	{
-		ui.logBrowser->append(QString::fromLocal8Bit("获取") + QString::fromLocal8Bit(title1) + QString::fromLocal8Bit("成功:") + QString::number(pid));
+		//QFile f(":/yys_script/log.css");
+		//if (f.open(QIODevice::ReadOnly))
+		//{
+		//	ui.logBrowser->setStyleSheet(f.readAll());
+		//}
+		ui.listWidget->addItem(QString::fromLocal8Bit("获取") + QString::fromLocal8Bit(title1) + QString::fromLocal8Bit("成功:") + QString::number(pid));
 		fsm_ = new FSM(hd_);
-		connect(fsm_,&FSM::MessageSignal,[this](QString &msg)
-		{
-			this->ui.logBrowser->append(msg);
-			ui.logBrowser->moveCursor(QTextCursor::End);
-		});
+		connect(fsm_,&FSM::MessageSignal,this,&yys_script::recevie_messages);
 	}
 	else
 	{
-		ui.logBrowser->append(QString::fromLocal8Bit("获取窗口句柄异常!阴阳师未启动！"));
+		ui.listWidget->addItem(QString::fromLocal8Bit("获取窗口句柄异常!阴阳师未启动！"));
 	}
 	RECT yys_rect;
 	GetWindowRect(hd_, &yys_rect);
@@ -74,6 +79,7 @@ yys_script::~yys_script()  // NOLINT(hicpp-use-equals-default)
 {
 	// unload_mousehook();
 	delete fsm_, fsm_ = nullptr;
+	
 }
 
 void yys_script::run()
@@ -98,6 +104,16 @@ void yys_script::on_ExploreButton_clicked()
 	fsm_->SetTransition(transition::Transition::EXPLORE);
 }
 
+void yys_script::on_startBreakButton_clicked()
+{
+	if (break_boder_ == nullptr)
+	{
+		break_boder_ = new BreakBoder(hd_);
+		bool b = connect(break_boder_, &BreakBoder::MessageSignal, this, &yys_script::recevie_messages);
+	}
+	break_boder_->start();
+}
+
 void yys_script::on_screenShotsButton_clicked() const
 {
 	auto screen = QGuiApplication::primaryScreen();
@@ -115,6 +131,18 @@ void yys_script::on_breakthrough_ticket_item_num_changed(int n_i) const
 	ui.breakTicketLabel->setText(QString::number(n_i));
 }
 
+
+void yys_script::recevie_messages(QString msg)
+{
+	//if (ui.logBrowser->toPlainText().count() >= 100)
+	//{
+	//	ui.logBrowser->clear();
+	//}
+	this->ui.listWidget->addItem(msg);
+	// ui.listWidget->setCurrentRow(ui.listWidget->count() - 1);
+	ui.listWidget->verticalScrollBar()->setValue(ui.listWidget->verticalScrollBar()->maximum());
+	//ui.listWidget->scrollToBottom();
+}
 
 void yys_script::closeEvent(QCloseEvent* event)
 {

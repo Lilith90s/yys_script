@@ -2,6 +2,7 @@
 #include <core.hpp>
 #include <QPoint>
 #include <Windows.h>
+#include <QRect>
 #include "ItemManger.h"
 class QImage;
 class QColor;
@@ -44,12 +45,16 @@ public:
 
 	static bool check_image(QImage& src,QImage& dst,QPoint& pos);
 
-	static QPoint find_pos(HWND hd ,QString& dst_name);
+	static QPoint find_pos(HWND hd ,QString& dst_name, QRect &rect= QRect(0,0,0,0));
 
 	static IplImage *qimage_to_iplimage(const QImage* image);
 
 	static bool is_valid_pos(QPoint &pos);
 
+	static void send_click(QPoint& pos, HWND hd);
+
+	static void send_esc(HWND hd);
+	
 public:
 	static float pr_score;  // ∆•≈‰„–÷µ
 };

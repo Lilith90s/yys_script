@@ -25,7 +25,7 @@ public:
 	 */
 	void SetTransition(transition::Transition transition);
 signals:
-	void MessageSignal(QString &msg);
+	void MessageSignal(QString msg);
 private:
 
 	void Explore();
