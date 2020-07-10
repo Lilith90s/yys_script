@@ -42,6 +42,7 @@ void BreakBoder::challenge(QRect &rect)
 		Sleep(1000);
 		attack_action();
 		Sleep(1500);
+		ret = Challenging;
 		while (ret == Challenging)
 		{
 			ret = get_challenge_result();
@@ -49,17 +50,19 @@ void BreakBoder::challenge(QRect &rect)
 			Sleep(2000);
 		}
 		PointFinder::send_click(QPoint(620, 240), hd);
-		//Sleep(5000);
+		Sleep(4000);
 		switch (ret)
 		{
 		case Success: return;
-		case Failed: break;
+		case Failed: 
+			emit MessageSignal(QString::fromLocal8Bit("突破失败，重新突破！"));
+			break;
 		case Challenging: break;
 		default: ;
 		}
 		
 	}
-	
+	emit MessageSignal(QString::fromLocal8Bit("突破成功！！"));
 
 }
 
@@ -133,7 +136,7 @@ ChallengeStatus BreakBoder::get_challenge_result()
 void BreakBoder::run()
 {
 	const int length = check_point.size();
-	for (size_t i = 0; ; i++)
+	for ( int i = 0; ; i++)
 	{
 		// 跳过已经突破的
 		//if (is_broken(check_point[i]))
@@ -171,7 +174,7 @@ void BreakBoder::run()
 		if (i == 8)
 		{
 			// 刷新挑战组
-			i = 0;
+			i = -1;
 			Sleep(1000);
 		}
 	}
