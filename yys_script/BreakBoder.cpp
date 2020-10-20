@@ -6,17 +6,17 @@ BreakBoder::BreakBoder(HWND hd)
 	: hd(hd)
 {
 	check_point = {
-		QRect(121,89,284,101), // ÉÏ×ó
-		QRect(427,89,284,101), // ÉÏÖĞ
-		QRect(732,89,284,101), // ÉÏÓÒ
+		QRect(131,131,293,190), // ä¸Šå·¦
+		QRect(426,131,293,190), // ä¸Šä¸­
+		QRect(722,131,293,190), // ä¸Šå³
 		
-		QRect(121,209,284,101), // ÖĞ×ó
-		QRect(427,209,284,101), // ÖĞ¼ä
-		QRect(732,209,284,101), // ÖĞÓÒ
+		QRect(131,250,293,190), // ä¸­å·¦
+		QRect(426,250,293,190), // ä¸­é—´
+		QRect(722,250,293,190), // ä¸­å³
 		
-		QRect(121,328,284,101), // ÏÂ×ó
-		QRect(427,328,284,101), // ÏÂÖĞ
-		QRect(732,328,284,101), // ÏÂÓÒ
+		QRect(131,373,293,190), // ä¸‹å·¦
+		QRect(426,373,293,190), // ä¸‹ä¸­
+		QRect(722,373,293,190), // ä¸‹å³
 	};
 }
 
@@ -55,14 +55,14 @@ void BreakBoder::challenge(QRect &rect)
 		{
 		case Success: return;
 		case Failed: 
-			emit MessageSignal(QString::fromLocal8Bit("Í»ÆÆÊ§°Ü£¬ÖØĞÂÍ»ÆÆ£¡"));
+			emit MessageSignal(QString::fromLocal8Bit("çªç ´å¤±è´¥ï¼Œé‡æ–°çªç ´ï¼"));
 			break;
 		case Challenging: break;
 		default: ;
 		}
 		
 	}
-	emit MessageSignal(QString::fromLocal8Bit("Í»ÆÆ³É¹¦£¡£¡"));
+	emit MessageSignal(QString::fromLocal8Bit("çªç ´æˆåŠŸï¼ï¼"));
 
 }
 
@@ -138,27 +138,27 @@ void BreakBoder::run()
 	const int length = check_point.size();
 	for ( int i = 0; ; i++)
 	{
-		// Ìø¹ıÒÑ¾­Í»ÆÆµÄ
+		// è·³è¿‡å·²ç»çªç ´çš„
 		//if (is_broken(check_point[i]))
 		//{
 		//	if (i == 8)
 		//	{
-		//		// Ë¢ĞÂÌôÕ½×é
+		//		// åˆ·æ–°æŒ‘æˆ˜ç»„
 		//		i = 0;
 		//		Sleep(1000);
 		//	}
 		//	continue;
 		//}
-		QString msg = QString::fromLocal8Bit("ÕıÔÚÌôÕ½µÚ%1¸ö").arg(QString::number(i));
+		QString msg = QString::fromLocal8Bit("æ­£åœ¨æŒ‘æˆ˜ç¬¬%1ä¸ª").arg(QString::number(i));
 		emit MessageSignal(msg);
 		if (make_challenge_failed(check_point[i]))
 		{
-			// ¹ÊÒâÌôÕ½Ê§°Ü
+			// æ•…æ„æŒ‘æˆ˜å¤±è´¥
 			Sleep(4000);
 			
-			challenge(check_point[i]);	// ÕıÊ½ÌôÕ½£¬Ö±µ½Í¨¹ı
+			challenge(check_point[i]);	// æ­£å¼æŒ‘æˆ˜ï¼Œç›´åˆ°é€šè¿‡
 			Sleep(4000);
-			// Ã¿Èı´ÎµÄ½±Àø
+			// æ¯ä¸‰æ¬¡çš„å¥–åŠ±
 			QPoint success_pos = PointFinder::find_pos(hd, QString("./assets/challenge_success.jpg"));
 			if (PointFinder::is_valid_pos(success_pos))
 			{
@@ -167,13 +167,13 @@ void BreakBoder::run()
 		}
 		else
 		{
-			QString msg = QString::fromLocal8Bit("µÚ%1¸ö¿ÉÄÜÒÑ¾­ÌôÕ½¹ıÁË£¬Ìø¹ı").arg(QString::number(i));
+			QString msg = QString::fromLocal8Bit("ç¬¬%1ä¸ªå¯èƒ½å·²ç»æŒ‘æˆ˜è¿‡äº†ï¼Œè·³è¿‡").arg(QString::number(i));
 			emit MessageSignal(msg);
 		}
 
 		if (i == 8)
 		{
-			// Ë¢ĞÂÌôÕ½×é
+			// åˆ·æ–°æŒ‘æˆ˜ç»„
 			i = -1;
 			Sleep(1000);
 		}
